@@ -81,8 +81,8 @@ This project simulates heat flow in a 1D bar made of two materials in contact (e
 - **Spatial discretization 空间离散:** 1D grid with $N$ points on $[0, L_1+L_2]$, spacing $\Delta x$.  
   在 $[0, L_1+L_2]$ 上均匀布 $N$ 个点，间距 $\Delta x$。
 
-- **Time discretization 时间离散:** Explicit forward Euler; time step $\Delta t = t_{\mathrm{end}} / \text{num\_time\_steps}$.  
-  显式前向欧拉；步长 $\Delta t = t_{\mathrm{end}} / \text{num\_time\_steps}$。
+- **Time discretization 时间离散:** Explicit forward Euler; time step $\Delta t = t_{\mathrm{end}}/n$ with $n$ = `num_time_steps`.  
+  显式前向欧拉；步长 $\Delta t = t_{\mathrm{end}}/n$，其中 $n$ 为 `num_time_steps`。
 
 - **Finite-difference scheme 差分格式:**  
   At interior points, flux at “half” faces uses harmonic-mean conductivity:  
