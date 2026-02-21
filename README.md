@@ -24,19 +24,15 @@ This project simulates heat flow in a 1D bar made of two materials in contact (e
   $$
   \rho c_p \frac{\partial T}{\partial t} = \frac{\partial}{\partial x}\left( k \frac{\partial T}{\partial x} \right), \quad 0 < x < L_1 + L_2.
   $$
-  Equivalently, in terms of thermal diffusivity $\alpha = k/(\rho c_p)$:  
-  等价地，用热扩散率 $\alpha = k/(\rho c_p)$ 表示：
+  Equivalently, in terms of thermal diffusivity $\alpha = k/(\rho c_p)$. 等价地，用热扩散率 $\alpha = k/(\rho c_p)$ 表示：
   $$
   \frac{\partial T}{\partial t} = \frac{\partial}{\partial x}\left( \alpha \frac{\partial T}{\partial x} \right).
   $$
 
 - **Domain 计算域**
-  - **Material A:** $x \in [0, L_1]$ — thermal conductivity $k_A$, density $\rho_A$, specific heat $c_{p,A}$.  
-    材料 A：$x \in [0, L_1]$，导热系数 $k_A$，密度 $\rho_A$，比热 $c_{p,A}$。
-  - **Material B:** $x \in [L_1, L_1+L_2]$ — $k_B$, $\rho_B$, $c_{p,B}$.  
-    材料 B：$x \in [L_1, L_1+L_2]$，$k_B$，$\rho_B$，$c_{p,B}$。
-  - The interface at $x = L_1$ is handled by a spatially varying $k$ (harmonic mean at cell faces).  
-    界面 $x = L_1$ 通过空间变化的 $k$（界面处调和平均）自然满足。
+  - **Material A 材料 A:** $x \in [0, L_1]$ — thermal conductivity $k_A$, density $\rho_A$, specific heat $c_{p,A}$. 导热系数 $k_A$，密度 $\rho_A$，比热 $c_{p,A}$。
+  - **Material B 材料 B:** $x \in [L_1, L_1+L_2]$ — $k_B$, $\rho_B$, $c_{p,B}$. $k_B$，$\rho_B$，$c_{p,B}$。
+  - The interface at $x = L_1$ is handled by a spatially varying $k$ (harmonic mean at cell faces). 界面在 $x = L_1$，由空间变化的 $k$（界面处调和平均）自然满足。
 
 - **Boundary conditions 边界条件**
   - $T(0, t) = T_{\mathrm{hot}}$ (hot end 热端)
@@ -49,52 +45,43 @@ This project simulates heat flow in a 1D bar made of two materials in contact (e
 
 - **True radiation intensity 真实辐射强度** (Stefan–Boltzmann, gray body)  
   $$
-  I(x,t) = \varepsilon_{\mathrm{real}}(x)\, \sigma\, T_{\mathrm{real}}^4(x,t).
-  $$  
-  $\varepsilon_{\mathrm{real}}$ depends on material (A or B); $\sigma$ is the Stefan–Boltzmann constant.  
-  $\varepsilon_{\mathrm{real}}$ 随材料（A 或 B）变化；$\sigma$ 为斯特藩–玻尔兹曼常数。
+  I(x,t) = \varepsilon_{\mathrm{real}}(x) \sigma T_{\mathrm{real}}^4(x,t).
+  $$
+  $\varepsilon_{\mathrm{real}}$ depends on material (A or B); $\sigma$ is the Stefan–Boltzmann constant. $\varepsilon_{\mathrm{real}}$ 随材料（A 或 B）变化；$\sigma$ 为斯特藩–玻尔兹曼常数。
 
 - **Camera-inferred temperature 相机反算温度**  
-  The camera assumes a single emissivity $\varepsilon_{\mathrm{set}}$ and computes  
-  相机假定单一发射率 $\varepsilon_{\mathrm{set}}$，并计算：
+  The camera assumes a single emissivity $\varepsilon_{\mathrm{set}}$ and computes. 相机假定单一发射率 $\varepsilon_{\mathrm{set}}$，并计算：
   $$
-  T_{\mathrm{cam}} = \left( \frac{I}{\varepsilon_{\mathrm{set}}\, \sigma} \right)^{1/4}.
-  $$  
-  If $\varepsilon_{\mathrm{set}} \neq \varepsilon_{\mathrm{real}}$, $T_{\mathrm{cam}} \neq T_{\mathrm{real}}$.  
-  若 $\varepsilon_{\mathrm{set}} \neq \varepsilon_{\mathrm{real}}$，则 $T_{\mathrm{cam}} \neq T_{\mathrm{real}}$。
+  T_{\mathrm{cam}} = \left( \frac{I}{\varepsilon_{\mathrm{set}} \sigma} \right)^{1/4}.
+  $$
+  If $\varepsilon_{\mathrm{set}} \neq \varepsilon_{\mathrm{real}}$, then $T_{\mathrm{cam}} \neq T_{\mathrm{real}}$. 若 $\varepsilon_{\mathrm{set}} \neq \varepsilon_{\mathrm{real}}$，则 $T_{\mathrm{cam}} \neq T_{\mathrm{real}}$。
 
 ### Emissivity correction | 发射率修正
 
 - **Theoretical correction 理论修正**  
-  Using $I = \varepsilon_{\mathrm{real}}\, \sigma\, T_{\mathrm{real}}^4$ and $T_{\mathrm{cam}}^4 = I/(\varepsilon_{\mathrm{set}}\, \sigma)$, we get  
-  由 $I = \varepsilon_{\mathrm{real}}\, \sigma\, T_{\mathrm{real}}^4$ 与 $T_{\mathrm{cam}}^4 = I/(\varepsilon_{\mathrm{set}}\, \sigma)$ 可得：
+  From $I = \varepsilon_{\mathrm{real}} \sigma T_{\mathrm{real}}^4$ and $T_{\mathrm{cam}}^4 = I/(\varepsilon_{\mathrm{set}} \sigma)$ we get the correction. 由 $I = \varepsilon_{\mathrm{real}} \sigma T_{\mathrm{real}}^4$ 与 $T_{\mathrm{cam}}^4 = I/(\varepsilon_{\mathrm{set}} \sigma)$ 可得修正公式：
   $$
   T_{\mathrm{corr}} = \left( \frac{\varepsilon_{\mathrm{set}}}{\varepsilon_{\mathrm{real}}} \right)^{1/4} T_{\mathrm{cam}}.
-  $$  
-  Then $T_{\mathrm{corr}} = T_{\mathrm{real}}$ if the model (gray body, no reflection) holds.  
-  在灰体、无反射等假设下，有 $T_{\mathrm{corr}} = T_{\mathrm{real}}$。
+  $$
+  So $T_{\mathrm{corr}} = T_{\mathrm{real}}$ when the model (gray body, no reflection) holds. 在灰体、无反射等假设下，有 $T_{\mathrm{corr}} = T_{\mathrm{real}}$。
 
 ---
 
 ## Numerical method | 数值方法
 
-- **Spatial discretization 空间离散:** 1D grid with $N$ points on $[0, L_1+L_2]$, spacing $\Delta x$.  
-  在 $[0, L_1+L_2]$ 上均匀布 $N$ 个点，间距 $\Delta x$。
+- **Spatial discretization 空间离散:** 1D grid with $N$ points on $[0, L_1+L_2]$, spacing $\Delta x$. 在 $[0, L_1+L_2]$ 上均匀布 $N$ 个点，间距 $\Delta x$。
 
-- **Time discretization 时间离散:** Explicit forward Euler; time step $\Delta t = t_{\mathrm{end}}/n$ with $n$ = `num_time_steps`.  
-  显式前向欧拉；步长 $\Delta t = t_{\mathrm{end}}/n$，其中 $n$ 为 `num_time_steps`。
+- **Time discretization 时间离散:** Explicit forward Euler; time step $\Delta t = t_{\mathrm{end}}/n$ with $n$ = `num_time_steps`. 显式前向欧拉；步长 $\Delta t = t_{\mathrm{end}}/n$，其中 $n$ 为 `num_time_steps`。
 
 - **Finite-difference scheme 差分格式:**  
-  At interior points, flux at “half” faces uses harmonic-mean conductivity:  
-  内点处，界面热流用调和平均导热系数：
+  At interior points, flux at “half” faces uses harmonic-mean conductivity. 内点处，界面热流用调和平均导热系数：
   $$
   k_{i+1/2} = \frac{2 k_i k_{i+1}}{k_i + k_{i+1}}, \quad
   F_{i+1/2} = -k_{i+1/2} \frac{T_{i+1} - T_i}{\Delta x}.
   $$  
-  Then $\rho c_p \frac{\partial T}{\partial t}\big|_i \approx (F_{i+1/2} - F_{i-1/2})/\Delta x$, and $T_i^{n+1} = T_i^n + \Delta t\, (\partial T/\partial t)|_i$.
+  Then $\rho c_p \frac{\partial T}{\partial t}\big|_i \approx (F_{i+1/2} - F_{i-1/2})/\Delta x$, and $T_i^{n+1} = T_i^n + \Delta t (\partial T/\partial t)|_i$. 即 $\rho c_p \partial T/\partial t|_i \approx (F_{i+1/2} - F_{i-1/2})/\Delta x$，$T_i^{n+1} = T_i^n + \Delta t (\partial T/\partial t)|_i$。
 
-- **Stability 稳定性:** The script checks $\Delta t \le 0.4\, \Delta x^2 / \max(\alpha)$. If this fails, increase `num_time_steps` or decrease `N`.  
-  脚本会检查 $\Delta t \le 0.4\, \Delta x^2 / \max(\alpha)$；若不满足，请增大 `num_time_steps` 或减小 `N`。
+- **Stability 稳定性:** The script checks $\Delta t \le 0.4 \Delta x^2 / \max(\alpha)$. If this fails, increase `num_time_steps` or decrease `N`. 脚本会检查 $\Delta t \le 0.4 \Delta x^2 / \max(\alpha)$；若不满足，请增大 `num_time_steps` 或减小 `N`。
 
 ---
 
