@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 1D Transient Heat Conduction + IR Camera Simulation + Emissivity Correction  
 # 一维瞬态导热与红外相机测量模拟及发射率修正
 
@@ -198,3 +199,7 @@ All parameters are defined at the top of `thermo_ir_simulation.py`. Key ones:
 ## License | 许可
 
 Use freely for teaching and learning. 可自由用于教学与学习。
+=======
+# IR_Camera_Calibration_Modelling_in_heat_transfer
+A 1D heat‑conduction simulator that models two‑material interfaces, generates synthetic IR‑camera measurements with emissivity errors, and demonstrates how calibration restores the true temperature field.
+>>>>>>> e4e1518c2062e4b915ad660f57f633d79c56f5d6
