@@ -39,28 +39,14 @@ This project simulates heat flow in a 1D bar made of two materials in contact (e
 
 ### IR camera model | 红外相机模型
 
-- **True radiation intensity 真实辐射强度** (Stefan–Boltzmann, gray body)  
-  $
-  I(x,t) = \varepsilon_{\mathrm{real}}(x) \sigma T_{\mathrm{real}}^4(x,t).
-  $
-  $\varepsilon_{\mathrm{real}}$ depends on material (A or B); $\sigma$ is the Stefan–Boltzmann constant. $\varepsilon_{\mathrm{real}}$ 随材料（A 或 B）变化；$\sigma$ 为斯特藩–玻尔兹曼常数。
+ <img width="1017" height="695" alt="image" src="https://github.com/user-attachments/assets/7cb9c066-3c4d-47a0-aeb9-847c35e9f98d" />
 
-- **Camera-inferred temperature 相机反算温度**  
-  The camera assumes a single emissivity $\varepsilon_{\mathrm{set}}$ and computes. 相机假定单一发射率 $\varepsilon_{\mathrm{set}}$，并计算：
-  $
-  T_{\mathrm{cam}} = \left( \frac{I}{\varepsilon_{\mathrm{set}} \sigma} \right)^{1/4}.
-  $
-  If $\varepsilon_{\mathrm{set}} \neq \varepsilon_{\mathrm{real}}$, then $T_{\mathrm{cam}} \neq T_{\mathrm{real}}$. 若 $\varepsilon_{\mathrm{set}} \neq \varepsilon_{\mathrm{real}}$，则 $T_{\mathrm{cam}} \neq T_{\mathrm{real}}$。
 
 ### Emissivity correction | 发射率修正
 
 - **Theoretical correction 理论修正**  
-  From $I = \varepsilon_{\mathrm{real}} \sigma T_{\mathrm{real}}^4$ and $T_{\mathrm{cam}}^4 = I/(\varepsilon_{\mathrm{set}} \sigma)$ we get the correction. 由 $I = \varepsilon_{\mathrm{real}} \sigma T_{\mathrm{real}}^4$ 与 $T_{\mathrm{cam}}^4 = I/(\varepsilon_{\mathrm{set}} \sigma)$ 可得修正公式：
-  $
-  T_{\mathrm{corr}} = \left( \frac{\varepsilon_{\mathrm{set}}}{\varepsilon_{\mathrm{real}}} \right)^{1/4} T_{\mathrm{cam}}.
-  $
-  So $T_{\mathrm{corr}} = T_{\mathrm{real}}$ when the model (gray body, no reflection) holds. 在灰体、无反射等假设下，有 $T_{\mathrm{corr}} = T_{\mathrm{real}}$。
-
+  <img width="1010" height="490" alt="image" src="https://github.com/user-attachments/assets/9db2d263-e4b3-4b4f-ac5b-8ae0d99966be" />
+  
 ---
 
 ## Numerical method | 数值方法
@@ -70,14 +56,12 @@ This project simulates heat flow in a 1D bar made of two materials in contact (e
 - **Time discretization 时间离散:** Explicit forward Euler; time step $\Delta t = t_{\mathrm{end}}/n$ with $n$ = `num_time_steps`. 显式前向欧拉；步长 $\Delta t = t_{\mathrm{end}}/n$，其中 $n$ 为 `num_time_steps`。
 
 - **Finite-difference scheme 差分格式:**  
-  At interior points, flux at “half” faces uses harmonic-mean conductivity. 内点处，界面热流用调和平均导热系数：
-  $$
-  k_{i+1/2} = \frac{2 k_i k_{i+1}}{k_i + k_{i+1}}, \quad
-  F_{i+1/2} = -k_{i+1/2} \frac{T_{i+1} - T_i}{\Delta x}.
-  $$  
-  Then $\rho c_p \frac{\partial T}{\partial t}\big|_i \approx (F_{i+1/2} - F_{i-1/2})/\Delta x$, and $T_i^{n+1} = T_i^n + \Delta t (\partial T/\partial t)|_i$. 即 $\rho c_p \partial T/\partial t|_i \approx (F_{i+1/2} - F_{i-1/2})/\Delta x$，$T_i^{n+1} = T_i^n + \Delta t (\partial T/\partial t)|_i$。
+  <img width="1023" height="571" alt="image" src="https://github.com/user-attachments/assets/41a3ea44-65df-4d48-a988-c13ea7dc594b" />
 
-- **Stability 稳定性:** The script checks $\Delta t \le 0.4 \Delta x^2 / \max(\alpha)$. If this fails, increase `num_time_steps` or decrease `N`. 脚本会检查 $\Delta t \le 0.4 \Delta x^2 / \max(\alpha)$；若不满足，请增大 `num_time_steps` 或减小 `N`。
+
+- **Stability 稳定性:**
+  <img width="891" height="245" alt="image" src="https://github.com/user-attachments/assets/de2171ba-d24d-449f-9328-832acf48054b" />
+
 
 ---
 
