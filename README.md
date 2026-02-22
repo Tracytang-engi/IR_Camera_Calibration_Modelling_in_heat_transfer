@@ -20,14 +20,9 @@ This project simulates heat flow in a 1D bar made of two materials in contact (e
 
 ### Heat conduction | 导热
 
-- **Governing equation 控制方程**  
-  $
-  \rho c_p \frac{\partial T}{\partial t} = \frac{\partial}{\partial x}\left( k \frac{\partial T}{\partial x} \right), \quad 0 < x < L_1 + L_2.
-  $
-  Equivalently, in terms of thermal diffusivity $\alpha = k/(\rho*c_p)$. 等价地，用热扩散率 $\alpha = k/(\rho*c_p)$ 表示：
-  $
-  \frac{\partial T}{\partial t} = \frac{\partial}{\partial x}\left( \alpha \frac{\partial T}{\partial x} \right).
-  $
+- **Governing equation 控制方程**
+  <img width="969" height="362" alt="image" src="https://github.com/user-attachments/assets/7c1958eb-db12-4cbf-8597-cf696fc9cd9c" />
+
 
 - **Domain 计算域**
   - **Material A 材料 A:** $x \in [0, L_1]$ — thermal conductivity $k_A$, density $\rho_A$, specific heat $c_{p,A}$. 导热系数 $k_A$，密度 $\rho_A$，比热 $c_{p,A}$。
