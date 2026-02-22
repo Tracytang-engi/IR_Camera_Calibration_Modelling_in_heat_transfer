@@ -21,13 +21,13 @@ This project simulates heat flow in a 1D bar made of two materials in contact (e
 ### Heat conduction | 导热
 
 - **Governing equation 控制方程**  
-  $$
+  $
   \rho c_p \frac{\partial T}{\partial t} = \frac{\partial}{\partial x}\left( k \frac{\partial T}{\partial x} \right), \quad 0 < x < L_1 + L_2.
-  $$
-  Equivalently, in terms of thermal diffusivity $\alpha = k/(\rho c_p)$. 等价地，用热扩散率 $\alpha = k/(\rho c_p)$ 表示：
-  $$
+  $
+  Equivalently, in terms of thermal diffusivity $\alpha = k/(\rho*c_p)$. 等价地，用热扩散率 $\alpha = k/(\rho*c_p)$ 表示：
+  $
   \frac{\partial T}{\partial t} = \frac{\partial}{\partial x}\left( \alpha \frac{\partial T}{\partial x} \right).
-  $$
+  $
 
 - **Domain 计算域**
   - **Material A 材料 A:** $x \in [0, L_1]$ — thermal conductivity $k_A$, density $\rho_A$, specific heat $c_{p,A}$. 导热系数 $k_A$，密度 $\rho_A$，比热 $c_{p,A}$。
@@ -44,25 +44,25 @@ This project simulates heat flow in a 1D bar made of two materials in contact (e
 ### IR camera model | 红外相机模型
 
 - **True radiation intensity 真实辐射强度** (Stefan–Boltzmann, gray body)  
-  $$
+  $
   I(x,t) = \varepsilon_{\mathrm{real}}(x) \sigma T_{\mathrm{real}}^4(x,t).
-  $$
+  $
   $\varepsilon_{\mathrm{real}}$ depends on material (A or B); $\sigma$ is the Stefan–Boltzmann constant. $\varepsilon_{\mathrm{real}}$ 随材料（A 或 B）变化；$\sigma$ 为斯特藩–玻尔兹曼常数。
 
 - **Camera-inferred temperature 相机反算温度**  
   The camera assumes a single emissivity $\varepsilon_{\mathrm{set}}$ and computes. 相机假定单一发射率 $\varepsilon_{\mathrm{set}}$，并计算：
-  $$
+  $
   T_{\mathrm{cam}} = \left( \frac{I}{\varepsilon_{\mathrm{set}} \sigma} \right)^{1/4}.
-  $$
+  $
   If $\varepsilon_{\mathrm{set}} \neq \varepsilon_{\mathrm{real}}$, then $T_{\mathrm{cam}} \neq T_{\mathrm{real}}$. 若 $\varepsilon_{\mathrm{set}} \neq \varepsilon_{\mathrm{real}}$，则 $T_{\mathrm{cam}} \neq T_{\mathrm{real}}$。
 
 ### Emissivity correction | 发射率修正
 
 - **Theoretical correction 理论修正**  
   From $I = \varepsilon_{\mathrm{real}} \sigma T_{\mathrm{real}}^4$ and $T_{\mathrm{cam}}^4 = I/(\varepsilon_{\mathrm{set}} \sigma)$ we get the correction. 由 $I = \varepsilon_{\mathrm{real}} \sigma T_{\mathrm{real}}^4$ 与 $T_{\mathrm{cam}}^4 = I/(\varepsilon_{\mathrm{set}} \sigma)$ 可得修正公式：
-  $$
+  $
   T_{\mathrm{corr}} = \left( \frac{\varepsilon_{\mathrm{set}}}{\varepsilon_{\mathrm{real}}} \right)^{1/4} T_{\mathrm{cam}}.
-  $$
+  $
   So $T_{\mathrm{corr}} = T_{\mathrm{real}}$ when the model (gray body, no reflection) holds. 在灰体、无反射等假设下，有 $T_{\mathrm{corr}} = T_{\mathrm{real}}$。
 
 ---
