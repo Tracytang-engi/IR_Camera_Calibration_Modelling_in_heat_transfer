@@ -21,7 +21,8 @@ This project simulates heat flow in a 1D bar made of two materials in contact (e
 ### Heat conduction | 导热
 
 - **Governing equation 控制方程**
-  <img width="969" height="362" alt="image" src="https://github.com/user-attachments/assets/7c1958eb-db12-4cbf-8597-cf696fc9cd9c" />
+  <img width="964" height="338" alt="image" src="https://github.com/user-attachments/assets/e99daa13-8c47-442d-99f4-769cc6d178a6" />
+
 
 
 - **Domain 计算域**
